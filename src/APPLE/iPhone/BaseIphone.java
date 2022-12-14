@@ -9,19 +9,20 @@ public abstract class BaseIphone implements Charger, Locker, Messenger {
     private String messageText;
     private boolean isLocked;
 
-
-    BaseIphone(int batteryLevel, String messageText, boolean isLocked) {
-        this.batteryLevel = batteryLevel;
-        this.messageText = messageText;
+    public BaseIphone() {
+        this.batteryLevel = 60;
+        this.messageText = "Welcome!";
         this.isLocked = false;
-
+    }
+    public int getBatteryLevel() {
+        return batteryLevel;
     }
 
     public void setBatteryLevel(int batteryLevel) {
         this.batteryLevel = batteryLevel;
     }
 
-    public String getMessageText() {
+    public String getMessageText(String messageText) {
         return messageText;
     }
 
@@ -29,14 +30,15 @@ public abstract class BaseIphone implements Charger, Locker, Messenger {
         this.messageText = messageText;
     }
 
-    public boolean isLocked() {
-        return isLocked;
+    public String isLocked() {
+        if (!isLocked) {
+            return "Your phone is unlocked";
+        } else
+            return "Your phone is locked";
     }
-
     public void setLocked(boolean locked) {
         isLocked = locked;
     }
-
     @Override
     public void chargeBattery() {
         batteryLevel++;
@@ -49,15 +51,19 @@ public abstract class BaseIphone implements Charger, Locker, Messenger {
 
     @Override
     public void readMessage() {
-        System.out.println(messageText);
+        System.out.println("Your last message is: " +messageText);
     }
 
     @Override
     public void lock() {
         System.out.println("Locked");
+        setLocked(true);
     }
 
-    public int getBatteryLevel() {
-        return batteryLevel;
+    @Override
+    public void unlock() {
+        System.out.println("Unlocked");
+        setLocked(false);
+
     }
 }

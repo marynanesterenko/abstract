@@ -2,80 +2,79 @@ package APPLE.iPhone;
 
 import java.util.Scanner;
 
-public class IphoneDriver {
+public class IphoneDriver extends BaseIphone {
     public static void main(String[] args) {
-        Scanner userInput = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        BaseIphone b;
+
         int askAgain = 0;
+
+        System.out.println("Which Iphone do you want to choose?(Iphone7, IPhone8, Iphone10):");
+        int choice = sc.nextInt();
+
+        switch (choice) {
+            case 7 -> b = new IPhone7();
+            case 8 -> b = new IPhone8();
+            case 10 -> b = new Iphone10();
+            default -> {
+                System.out.println("Please select the model from given options only!");
+                b = null;
+            }
+        }
+
         do {
-            System.out.println("Please choose an iPhone model, your options are: 7, 8, or 10");
-            int model = userInput.nextInt();
+            System.out.println("Which function do you want to access:\n" +
+                    "        1. Check BatteryLife\n" +
+                    "        2. Charge Iphone\n" +
+                    "        3. SendMessage\n" +
+                    "        4. ReadLastMessage\n" +
+                    "        5. check if iphone is locked\n" +
+                    "        6. lock iphone\n" +
+                    "        7. unlock iphone");
 
-            BaseIphone b;
-
-            switch (model) {
-                case 7:
-                    b = new IPhone7(60, "Welcome", false);
-                    break;
-
-                case 8:
-                    b = new IPhone8(60, "Welcome", false);
-                    break;
-
-                case 10:
-                    b = new IPhone10(60, "Welcome", false);
-                    break;
-                default:
-                    System.out.println("Please select the model from given options only!");
-            }
-
-            System.out.println("Please select which action you would like to perform? Select from the following: " +
-                    "1. Check BatteryLife\n" +
-                    "2. Charge Iphone\n" +
-                    "3. SendMessage\n" +
-                    "4. ReadLastMessage\n" +
-                    "5. check if iphone is locked\n" +
-                    "6. lock iphone\n" +
-                    "7. unlock iphone");
-
-
-            int action = userInput.nextInt();
-            switch (action) {
-                case 1:
-                    b.getBatteryLevel(); // we cannot figure this out -> BUT Baiat is working on it :)
-                    break;
-
-                case 2:
+            int function = sc.nextInt();
+            switch (function) {
+                case 1 -> {
+                    assert b != null;
+                    System.out.println("Your battery is at: " + b.getBatteryLevel() + "%");
+                }
+                case 2 -> {
+                    assert b != null;
                     b.chargeBattery();
-                    break;
-
-                case 3:
+                    System.out.println("Your battery is at: " + b.getBatteryLevel() + "%");
+                }
+                case 3 -> {
                     System.out.println("Please enter your message: ");
-                    String message = userInput.nextLine();
+                    String message = sc.next();
+                    assert b != null;
                     b.sendMessage(message);
-                    break;
-
-                case 4:
+                }
+                case 4 -> {
+                    assert b != null;
                     b.readMessage();
-                    break;
-
-                case 5:
-                    b.isLocked();
-                    break;
-
-                case 6:
+                }
+                case 5 -> {
+                    assert b != null;
+                    System.out.println(b.isLocked());
+                }
+                case 6 -> {
+                    assert b != null;
                     b.lock();
-                    break;
-
-                case 7:
-                    b.unLock();
-                    break;
-
-                default:
-                    System.out.println("Please select the model from given options only!");
+                }
+                case 7 -> {
+                    assert b != null;
+                    b.unlock();
+                }
+                default -> System.out.println("Please select the functions from given options only!");
             }
-
             System.out.println("Enter 1 to run again" + "\n" + "or 2 to stop: ");
-            askAgain = userInput.nextInt();
+
+            askAgain = sc.nextInt();
         } while (askAgain == 1);
+    }
+
+    @Override
+    public void unLock() {
+
     }
 }
